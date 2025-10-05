@@ -1,0 +1,10 @@
+{
+   "$schema": "https://openapi.vercel.sh/microfrontends.json",
+   "applications": {
+      "22": {
+         "development": {
+            "fallback": "22.alexanderliu.com"
+         }
+      }
+   }
+}
