@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { sineInOut } from 'svelte/easing';
+	import { Tween } from 'svelte/motion';
 
 	type Image = {
 		default: {
@@ -20,6 +22,16 @@
 		query: { enhanced: true, format: 'avif;webp;jpeg;', w: '' }
 	});
 
+	const imageCount = $derived(Object.keys(imageModules).length);
+
+	const selectedPhotoTween = new Tween(0, {
+		duration: 15_000,
+		easing: sineInOut
+	});
+	const selectedPhoto = $derived(Math.round(selectedPhotoTween.current));
+
+	$inspect(selectedPhoto);
+
 	onMount(() => {
 		Promise.all(
 			Array.from(document.querySelectorAll<HTMLImageElement>('.home-image'))
@@ -33,17 +45,43 @@
 		).then(() => {
 			console.log('images finished loading');
 		});
+
+		selectedPhotoTween.set(imageCount);
 	});
 </script>
 
-{#each Object.entries(imageModules) as [_path, module]}
-	<enhanced:img class="image home-image" src={module.default} alt="" />
-{/each}
+<div class="parent">
+	<div class="images">
+		{#each Object.entries(imageModules) as [_path, module], i}
+			<enhanced:img
+				class="image home-image"
+				style:opacity={i + 1 == selectedPhoto ? '1' : '0'}
+				src={module.default}
+				alt=""
+			/>
+		{/each}
+	</div>
+</div>
 
 <style>
-	.image {
+	.parent {
+		height: 100vh;
+		height: 100svh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.images {
+		position: relative;
 		width: 75vw;
 		height: 75vh;
+	}
+
+	.image {
+		position: absolute;
+		width: 100%;
+		height: 100%;
 		object-fit: contain;
 	}
 </style>
