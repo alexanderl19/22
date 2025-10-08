@@ -30,8 +30,6 @@
 	});
 	const selectedPhoto = $derived(Math.round(selectedPhotoTween.current));
 
-	$inspect(selectedPhoto);
-
 	onMount(() => {
 		Promise.all(
 			Array.from(document.querySelectorAll<HTMLImageElement>('.home-image'))
