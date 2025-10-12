@@ -1,9 +1,10 @@
 <script lang="ts">
 	interface Props {
 		datetimes: number[];
+		activePhoto: number;
 	}
 
-	const { datetimes }: Props = $props();
+	const { datetimes, activePhoto }: Props = $props();
 
 	const start = $derived(Math.min(...datetimes));
 	const total = $derived(Math.max(...datetimes) - start);
@@ -14,8 +15,12 @@
 </script>
 
 <div class="timeline">
-	{#each datetimePercentages as datetimePercentage}
-		<div class="marker" style:left="{datetimePercentage}%"></div>
+	{#each datetimePercentages as datetimePercentage, i}
+		<div
+			class="marker"
+			class:active={i + 1 == activePhoto}
+			style:left="{datetimePercentage}%"
+		></div>
 	{/each}
 </div>
 
@@ -32,5 +37,11 @@
 		height: 16px;
 		width: 1px;
 		background-color: var(--sand-9);
+	}
+
+	.active {
+		background-color: var(--blue-9);
+		z-index: 10;
+		height: 24px;
 	}
 </style>

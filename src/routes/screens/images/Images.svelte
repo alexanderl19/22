@@ -31,11 +31,11 @@
 
 	const imageCount = $derived(Object.keys(imageModules).length);
 
-	const selectedPhotoTween = new Tween(0, {
+	const activePhotoTween = new Tween(0, {
 		duration: 15_000,
 		easing: sineInOut
 	});
-	const selectedPhoto = $derived(Math.round(selectedPhotoTween.current));
+	const activePhoto = $derived(Math.round(activePhotoTween.current));
 
 	onMount(() => {
 		Promise.all(
@@ -51,7 +51,7 @@
 			console.log('images finished loading');
 		});
 
-		selectedPhotoTween.set(imageCount);
+		activePhotoTween.set(imageCount);
 	});
 
 	const datetimes = $derived(
@@ -68,13 +68,13 @@
 		{#each Object.entries(imageModules) as [_path, module], i}
 			<enhanced:img
 				class="image home-image"
-				style:opacity={i + 1 == selectedPhoto ? '1' : '0'}
+				style:opacity={i + 1 == activePhoto ? '1' : '0'}
 				src={module.default}
 				alt=""
 			/>
 		{/each}
 	</div>
-	<Timeline {datetimes} />
+	<Timeline {datetimes} {activePhoto} />
 </div>
 
 <style>
