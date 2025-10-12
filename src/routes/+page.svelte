@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Images from './Images.svelte';
+	import Images from './screens/images/Images.svelte';
 </script>
 
 <Images />

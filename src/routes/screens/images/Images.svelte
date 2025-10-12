@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { sineInOut } from 'svelte/easing';
 	import { Tween } from 'svelte/motion';
+	import Timeline from './Timeline.svelte';
 
 	interface Props {
 		visible?: boolean;
@@ -52,6 +53,14 @@
 
 		selectedPhotoTween.set(imageCount);
 	});
+
+	const datetimes = $derived(
+		Object.keys(imageModules)
+			.map((path) => path.match(/\d*(?=\.avif$)/)?.[0])
+			.filter((time) => time !== undefined)
+			.map((time) => Number(time))
+			.sort()
+	);
 </script>
 
 <div class="parent" style:opacity={visible ? '1' : '0'}>
@@ -65,6 +74,7 @@
 			/>
 		{/each}
 	</div>
+	<Timeline {datetimes} />
 </div>
 
 <style>
@@ -72,6 +82,7 @@
 		height: 100vh;
 		height: 100svh;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 	}
