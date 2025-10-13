@@ -25,6 +25,7 @@
 		"@sveltejs/kit": "2.43.8",
 		"@sveltejs/vite-plugin-svelte": "6.2.1",
 		"@types/node": "22.18.8",
+		"cli-spinners": "3.3.0",
 		"drizzle-kit": "0.31.5",
 		"drizzle-orm": "0.44.6",
 		"eslint": "9.37.0",

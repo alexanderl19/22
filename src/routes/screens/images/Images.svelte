@@ -6,9 +6,15 @@
 
 	interface Props {
 		visible?: boolean;
+		doneLoading?: boolean;
+		loadingPercentage?: number;
 	}
 
-	const { visible = true }: Props = $props();
+	let {
+		visible = true,
+		doneLoading = $bindable(false),
+		loadingPercentage = $bindable(0)
+	}: Props = $props();
 
 	type Image = {
 		default: {
@@ -31,24 +37,41 @@
 
 	const imageCount = $derived(Object.keys(imageModules).length);
 
-	const activePhotoTween = new Tween(0, {
+	const activePhotoTween = new Tween(1, {
 		duration: 15_000,
 		easing: sineInOut
 	});
 	const activePhoto = $derived(Math.round(activePhotoTween.current));
 
+	// defensive - should be the same as imageCount
+	// svelte-ignore state_referenced_locally intentionally ignore future imageCount updates (there should be none anyways)
+	let imageCountLoading = $state(imageCount);
+	let imagesLoaded = $state(0);
+	$effect(() => {
+		loadingPercentage = (imagesLoaded / imageCountLoading) * 100;
+	});
+
 	onMount(() => {
-		Promise.all(
-			Array.from(document.querySelectorAll<HTMLImageElement>('.home-image'))
-				.filter((img) => !img.complete)
-				.map(
-					(img) =>
-						new Promise((resolve) => {
-							img.onload = img.onerror = resolve;
-						})
-				)
-		).then(() => {
-			console.log('images finished loading');
+		const imageElements = Array.from(document.querySelectorAll<HTMLImageElement>('.home-image'));
+		imageCountLoading = imageElements.length;
+
+		const loadingPromises = imageElements
+			.filter((img) => !img.complete)
+			.map(
+				(img) =>
+					new Promise<void>((resolve) => {
+						img.onload = img.onerror = () => {
+							imagesLoaded += 1;
+							resolve();
+						};
+					})
+			);
+
+		// add already loaded images to count
+		imagesLoaded += imageCountLoading - loadingPromises.length;
+
+		Promise.all(loadingPromises).then(() => {
+			doneLoading = true;
 		});
 
 		activePhotoTween.set(imageCount);
@@ -74,8 +97,10 @@
 			/>
 		{/each}
 	</div>
-	<Timeline {datetimes} {activePhoto} />
 </div>
+{#if visible}
+	<Timeline {datetimes} {activePhoto} />
+{/if}
 
 <style>
 	.parent {
