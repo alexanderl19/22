@@ -2,8 +2,11 @@
 	import { PUBLIC_AUTH_BASE_URL, PUBLIC_BASE_URL } from '$env/static/public';
 	import Button from '$lib/components/Button.svelte';
 
-	const messageText =
-		"Hello!\nYou are cordially invited to Alexander's 22nd birthday celebration on Oct 18th.\nPlease sign in to RSVP and create your doodle.";
+	const messageText = `Hello!
+	You are cordially invited to Alexander's 22nd birthday celebration on Oct 18th, starting at 8PM.
+	Drinks, ice cream, and light refreshments will be provided.
+	While I'm sure all your gifts would be wonderful, I am unfortunately running out of storage space. No gifts please unless you really really have something in mind.
+	Please sign in to RSVP and create your doodle.`;
 
 	const message = $derived.by(() => {
 		const delaySpacing = 10;
@@ -32,7 +35,7 @@
 </script>
 
 <div class="center">
-	<div class="x-spacing">
+	<div class="spacing">
 		<div class="line"></div>
 		<div class="right-line-parent">
 			<div class="line"></div>
@@ -60,9 +63,9 @@
 		max-width: 35rem;
 	}
 
-	.x-spacing {
+	.spacing {
 		position: relative;
-		margin: 0 16px;
+		margin: 96px 16px;
 	}
 
 	@keyframes line-animation {

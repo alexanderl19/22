@@ -34,6 +34,7 @@
 	}
 
 	.button {
+		color: #ffffff;
 		font-family: 'Archivo Variable', sans-serif;
 		display: block;
 		font-size: 0.875rem;
@@ -51,11 +52,15 @@
 	}
 
 	.button:active {
-		filter: brightness(108%);
+		filter: brightness(92%) saturate(1.1);
+	}
+	@media (prefers-color-scheme: dark) {
+		.button:active {
+			filter: brightness(108%);
+		}
 	}
 
 	.link {
-		color: #ffffff;
 		text-decoration: none;
 		display: flex;
 		align-items: center;
