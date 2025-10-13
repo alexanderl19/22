@@ -15,5 +15,9 @@
 	});
 </script>
 
-<Loading {loadingPercentage} />
-<Images visible={stage == 'photos'} bind:doneLoading={imagesDoneLoading} bind:loadingPercentage />
+{#if stage === 'loading'}
+	<Loading {loadingPercentage} />
+{/if}
+{#if stage === 'loading' || stage === 'photos'}
+	<Images visible={stage == 'photos'} bind:doneLoading={imagesDoneLoading} bind:loadingPercentage />
+{/if}

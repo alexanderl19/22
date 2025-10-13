@@ -104,8 +104,10 @@
 
 <style>
 	.parent {
+		position: fixed;
 		height: 100vh;
 		height: 100svh;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
