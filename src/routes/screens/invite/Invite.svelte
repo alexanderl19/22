@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PUBLIC_AUTH_BASE_URL, PUBLIC_BASE_URL } from '$env/static/public';
 	import Button from '$lib/components/Button.svelte';
 
 	const messageText =
@@ -23,6 +24,11 @@
 			totalDelay: delayAggregator
 		};
 	});
+
+	const signinHref = new URL(
+		`/signin?redirect_uri=${new URL('auth/ott', PUBLIC_BASE_URL).toString()}`,
+		PUBLIC_AUTH_BASE_URL
+	).toString();
 </script>
 
 <div class="center">
@@ -43,7 +49,7 @@
 			{/each}
 		</div>
 		<div class="button" style:animation-delay="{message.totalDelay + 100}ms">
-			<Button text="Sign In" />
+			<Button as="a" href={signinHref} text="Sign In" />
 		</div>
 	</div>
 </div>

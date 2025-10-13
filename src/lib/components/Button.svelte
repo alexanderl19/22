@@ -1,15 +1,23 @@
 <script lang="ts">
 	interface Props {
 		text: string;
+		as?: 'button' | 'a';
+		href?: string;
 	}
 
-	const { text }: Props = $props();
+	const { text, as = 'button', href }: Props = $props();
 </script>
 
 <div class="parent">
-	<button class="button">
-		{text}
-	</button>
+	{#if as === 'button'}
+		<button class="button">
+			{text}
+		</button>
+	{:else if as === 'a'}
+		<a {href} class="button link">
+			{text}
+		</a>
+	{/if}
 </div>
 
 <style>
@@ -26,6 +34,8 @@
 	}
 
 	.button {
+		font-family: 'Archivo Variable', sans-serif;
+		display: block;
 		font-size: 0.875rem;
 		line-height: 1.25rem;
 		outline: none;
@@ -42,5 +52,13 @@
 
 	.button:active {
 		filter: brightness(108%);
+	}
+
+	.link {
+		color: #ffffff;
+		text-decoration: none;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 </style>
