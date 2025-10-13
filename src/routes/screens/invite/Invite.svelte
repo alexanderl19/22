@@ -59,11 +59,26 @@
 		margin: 0 16px;
 	}
 
+	@keyframes line-animation {
+		0% {
+			opacity: 0;
+			height: 0;
+		}
+
+		100% {
+			opacity: 1;
+			height: 100vh;
+		}
+	}
+
 	.line {
+		animation-name: line-animation;
+		animation-duration: 1s;
+		animation-fill-mode: both;
+		animation-timing-function: cubic-bezier(0.11, 0, 0.5, 0);
 		background-color: var(--sand-4);
 		top: 0;
 		width: 1px;
-		height: 100vh;
 		position: fixed;
 		z-index: -1;
 	}
