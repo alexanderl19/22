@@ -1,23 +1,31 @@
 <script lang="ts">
-	import { untrack } from 'svelte';
 	import Images from './screens/images/Images.svelte';
+	import Invite from './screens/invite/Invite.svelte';
 	import Loading from './screens/loading/Loading.svelte';
 
 	let stage = $state<'loading' | 'photos' | 'invite' | 'list'>('loading');
 
-	let imagesDoneLoading = $state(false);
 	let loadingPercentage = $state(0);
 
-	$effect(() => {
-		if (untrack(() => stage) == 'loading' && imagesDoneLoading) {
+	const onLoadingDone = () => {
+		if (stage == 'loading') {
 			stage = 'photos';
 		}
-	});
+	};
+
+	const onAnimationDone = () => {
+		stage = 'invite';
+	};
+
+	$effect(() => {});
 </script>
 
 {#if stage === 'loading'}
 	<Loading {loadingPercentage} />
 {/if}
 {#if stage === 'loading' || stage === 'photos'}
-	<Images visible={stage == 'photos'} bind:doneLoading={imagesDoneLoading} bind:loadingPercentage />
+	<Images visible={stage == 'photos'} {onLoadingDone} {onAnimationDone} bind:loadingPercentage />
+{/if}
+{#if stage === 'invite'}
+	<Invite />
 {/if}

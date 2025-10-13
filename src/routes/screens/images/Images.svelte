@@ -6,14 +6,16 @@
 
 	interface Props {
 		visible?: boolean;
-		doneLoading?: boolean;
+		onLoadingDone?: () => void;
 		loadingPercentage?: number;
+		onAnimationDone?: () => void;
 	}
 
 	let {
 		visible = true,
-		doneLoading = $bindable(false),
-		loadingPercentage = $bindable(0)
+		onLoadingDone,
+		loadingPercentage = $bindable(0),
+		onAnimationDone
 	}: Props = $props();
 
 	type Image = {
@@ -46,10 +48,11 @@
 	// defensive - should be the same as imageCount
 	// svelte-ignore state_referenced_locally intentionally ignore future imageCount updates (there should be none anyways)
 	let imageCountLoading = $state(imageCount);
-	let imagesLoaded = $state(0);
+	let imagesLoadedCount = $state(0);
 	$effect(() => {
-		loadingPercentage = (imagesLoaded / imageCountLoading) * 100;
+		loadingPercentage = (imagesLoadedCount / imageCountLoading) * 100;
 	});
+	let imagesDoneLoading = $state(false);
 
 	onMount(() => {
 		const imageElements = Array.from(document.querySelectorAll<HTMLImageElement>('.home-image'));
@@ -61,20 +64,27 @@
 				(img) =>
 					new Promise<void>((resolve) => {
 						img.onload = img.onerror = () => {
-							imagesLoaded += 1;
+							imagesLoadedCount += 1;
 							resolve();
 						};
 					})
 			);
 
 		// add already loaded images to count
-		imagesLoaded += imageCountLoading - loadingPromises.length;
+		imagesLoadedCount += imageCountLoading - loadingPromises.length;
 
 		Promise.all(loadingPromises).then(() => {
-			doneLoading = true;
+			imagesDoneLoading = true;
+			onLoadingDone?.();
 		});
+	});
 
-		activePhotoTween.set(imageCount);
+	$effect(() => {
+		if (visible && imagesDoneLoading) {
+			activePhotoTween.set(imageCount).then(() => {
+				onAnimationDone?.();
+			});
+		}
 	});
 
 	const datetimes = $derived(
