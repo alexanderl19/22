@@ -3,7 +3,7 @@
 	import Invite from './screens/invite/Invite.svelte';
 	import Loading from './screens/loading/Loading.svelte';
 
-	let stage = $state<'loading' | 'photos' | 'invite' | 'list'>('invite');
+	let stage = $state<'loading' | 'photos' | 'invite' | 'list'>('loading');
 
 	let loadingPercentage = $state(0);
 
