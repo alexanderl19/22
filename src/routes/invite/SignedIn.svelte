@@ -12,7 +12,7 @@
 
 <p class="note">RSVP</p>
 <RSVP {id} {name} />
-<p class="note">Doodle! <span class="gray">Only the grided area is included.</span></p>
+<p class="note">Doodle! <span class="gray">Only the inner area is included.</span></p>
 <Doodle {id} {name} />
 
 <style lang="scss">
