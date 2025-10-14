@@ -50,12 +50,6 @@
 		}
 	}
 
-	input {
-		display: none;
-		appearance: none;
-		margin: 0;
-	}
-
 	.button {
 		color: #ffffff;
 		font-family: 'Archivo Variable', sans-serif;
