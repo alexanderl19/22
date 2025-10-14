@@ -19,6 +19,8 @@ type SessionData =
 				email: string;
 				emailVerified: boolean;
 				name: string;
+				firstName: string;
+				lastName: string;
 				createdAt: Date;
 				updatedAt: Date;
 				image?: string | null | undefined | undefined;

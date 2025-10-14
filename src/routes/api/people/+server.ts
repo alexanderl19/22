@@ -81,13 +81,17 @@ export const PUT: RequestHandler = async ({ request }) => {
 			.insert(people)
 			.values({
 				id: sessionData.user.id,
-				name: sessionData.user.name,
+				name: sessionData.user.firstName + sessionData.user.lastName,
 				rsvp: updates.rsvp,
 				doodle: updates.doodle
 			})
 			.onConflictDoUpdate({
 				target: people.id,
-				set: { name: sessionData.user.name, rsvp: updates.rsvp, doodle: updates.doodle }
+				set: {
+					name: sessionData.user.firstName + sessionData.user.lastName,
+					rsvp: updates.rsvp,
+					doodle: updates.doodle
+				}
 			});
 
 		return txid;
