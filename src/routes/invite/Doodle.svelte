@@ -31,7 +31,11 @@
 	const saveDoodle = debounceFunction(
 		async () => {
 			if (editor) {
+				await editor.dispatch(editor.setBackgroundStyle({ type: 2 }));
 				const svg = await editor.toSVGAsync();
+				await editor.dispatch(
+					editor.setBackgroundStyle({ color: Color4.fromHex('#000'), type: 1 })
+				);
 
 				if (peopleCollection.has(id)) {
 					peopleCollection.update(id, (person) => {
@@ -54,7 +58,7 @@
 		() => {
 			initialUpdatesDone = true;
 		},
-		{ wait: 200 }
+		{ wait: 500 }
 	);
 	$effect(() => {
 		if (!initialUpdatesDone && meQuery.data) {
