@@ -21,6 +21,9 @@
 		"@electric-sql/client": "1.0.14",
 		"@eslint/compat": "1.4.0",
 		"@eslint/js": "9.37.0",
+		"@fontsource-variable/archivo": "^5.2.8",
+		"@fontsource/archivo": "^5.2.8",
+		"@fontsource/commit-mono": "^5.2.5",
 		"@js-draw/math": "1.31.1",
 		"@sveltejs/adapter-vercel": "5.10.3",
 		"@sveltejs/enhanced-img": "0.8.3",
@@ -31,6 +34,7 @@
 		"@types/node": "22.18.8",
 		"cli-spinners": "3.3.0",
 		"clsx": "2.1.1",
+		"debounce-fn": "6.0.0",
 		"drizzle-kit": "0.31.5",
 		"drizzle-orm": "0.44.6",
 		"eslint": "9.37.0",
@@ -55,11 +59,6 @@
 			"esbuild",
 			"sharp"
 		]
-	},
-	"dependencies": {
-		"@fontsource-variable/archivo": "^5.2.8",
-		"@fontsource/archivo": "^5.2.8",
-		"@fontsource/commit-mono": "^5.2.5"
 	},
 	"packageManager": "pnpm@10.13.1"
 }

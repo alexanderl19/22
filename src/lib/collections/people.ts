@@ -13,10 +13,7 @@ const onInsertUpdate = async ({ transaction }: MutationFnParams<PeopleCollection
 	const newItem = transaction.mutations[0].modified;
 	const response = await fetch('/api/people', {
 		method: 'PUT',
-		body: JSON.stringify({
-			name: newItem.name,
-			rsvp: newItem.rsvp
-		}),
+		body: JSON.stringify(newItem),
 		headers: {
 			'Content-Type': 'application/json'
 		}

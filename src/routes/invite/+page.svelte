@@ -63,7 +63,7 @@
 				<Button as="a" href={signinHref} text="Sign In" />
 			{:else}
 				<RSVP id={data.user.id} name={data.user.name} />
-				<Doodle />
+				<Doodle id={data.user.id} name={data.user.name} />
 			{/if}
 		</div>
 	</div>

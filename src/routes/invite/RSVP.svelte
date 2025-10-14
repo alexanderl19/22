@@ -9,10 +9,14 @@
 
 	const { id, name }: Props = $props();
 
-	const peopleQuery = useLiveQuery((q) =>
+	const meQuery = useLiveQuery((q) =>
 		q
 			.from({ people: peopleCollection })
 			.where(({ people }) => eq(people.id, id))
+			.select(({ people }) => ({
+				id: people.id,
+				rsvp: people.rsvp
+			}))
 			.findOne()
 	);
 
@@ -32,7 +36,7 @@
 </script>
 
 <div class="buttons">
-	<label class="parent left" class:active={peopleQuery.data[0]?.rsvp === true}>
+	<label class="parent left" class:active={meQuery.data[0]?.rsvp === true}>
 		<button
 			class="button"
 			onclick={() => {
@@ -40,7 +44,7 @@
 			}}>🪼 Going</button
 		>
 	</label>
-	<label class="parent" class:active={peopleQuery.data[0]?.rsvp === false}>
+	<label class="parent" class:active={meQuery.data[0]?.rsvp === false}>
 		<button
 			class="button"
 			onclick={() => {

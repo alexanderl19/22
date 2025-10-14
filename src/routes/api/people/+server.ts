@@ -44,7 +44,12 @@ export const GET: RequestHandler = async ({ url }) => {
 
 const Updates = z.object({
 	name: z.string().optional(),
-	rsvp: z.coerce.boolean().optional()
+	rsvp: z.coerce.boolean().optional(),
+	doodle: z
+		.object({
+			doodle: z.string()
+		})
+		.optional()
 });
 
 const generateTxId = async (
@@ -68,15 +73,21 @@ export const PUT: RequestHandler = async ({ request }) => {
 	}
 
 	const updates = Updates.parse(await request.json());
+	console.log(updates);
 
 	const txid = await db.transaction(async (tx) => {
 		const txid = await generateTxId(tx);
 		await tx
 			.insert(people)
-			.values({ id: sessionData.user.id, name: sessionData.user.name, rsvp: updates.rsvp })
+			.values({
+				id: sessionData.user.id,
+				name: sessionData.user.name,
+				rsvp: updates.rsvp,
+				doodle: updates.doodle
+			})
 			.onConflictDoUpdate({
 				target: people.id,
-				set: { name: sessionData.user.name, rsvp: updates.rsvp }
+				set: { name: sessionData.user.name, rsvp: updates.rsvp, doodle: updates.doodle }
 			});
 
 		return txid;
