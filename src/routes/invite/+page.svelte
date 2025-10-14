@@ -2,8 +2,7 @@
 	import type { PageProps } from './$types';
 	import { PUBLIC_AUTH_BASE_URL, PUBLIC_BASE_URL } from '$env/static/public';
 	import Button from '$lib/components/Button.svelte';
-	import RSVP from './RSVP.svelte';
-	import Doodle from './Doodle.svelte';
+	import SignedIn from './SignedIn.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -62,8 +61,7 @@
 			{#if !data.signedIn}
 				<Button as="a" href={signinHref} text="Sign In" />
 			{:else}
-				<RSVP id={data.user.id} name={data.user.name} />
-				<Doodle id={data.user.id} name={data.user.name} />
+				<SignedIn id={data.user.id} name={data.user.name} />
 			{/if}
 		</div>
 	</div>

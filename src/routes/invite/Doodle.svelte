@@ -102,7 +102,6 @@
 
 <style>
 	.canvas-parent {
-		margin-top: 24px;
 		border: 1px solid var(--sand-7);
 		aspect-ratio: 1;
 	}
