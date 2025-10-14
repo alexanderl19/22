@@ -1,9 +1,8 @@
 <script lang="ts">
-	import Images from './screens/images/Images.svelte';
-	import Invite from './screens/invite/Invite.svelte';
+	// import Images from './screens/images/Images.svelte';
 	import Loading from './screens/loading/Loading.svelte';
 
-	let stage = $state<'loading' | 'photos' | 'invite' | 'list'>('loading');
+	let stage = $state<'loading' | 'photos' | 'invite' | 'list'>('invite');
 
 	let loadingPercentage = $state(0);
 
@@ -24,8 +23,5 @@
 	<Loading {loadingPercentage} />
 {/if}
 {#if stage === 'loading' || stage === 'photos'}
-	<Images visible={stage == 'photos'} {onLoadingDone} {onAnimationDone} bind:loadingPercentage />
-{/if}
-{#if stage === 'invite'}
-	<Invite />
+	<!-- <Images visible={stage == 'photos'} {onLoadingDone} {onAnimationDone} bind:loadingPercentage /> -->
 {/if}

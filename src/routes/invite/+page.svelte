@@ -1,19 +1,25 @@
 <script lang="ts">
+	import type { PageProps } from './$types';
 	import { PUBLIC_AUTH_BASE_URL, PUBLIC_BASE_URL } from '$env/static/public';
 	import Button from '$lib/components/Button.svelte';
+	import RSVP from './RSVP.svelte';
 
-	const messageText = `Hello!
-	You are cordially invited to Alexander's 22nd birthday celebration on Oct 18th, starting at 8PM.
-	Drinks, ice cream, and light refreshments will be provided.
-	While I'm sure all your gifts would be wonderful, I am unfortunately running out of storage space. No gifts please unless you really really have something in mind.
-	Please sign in to RSVP and create your doodle.`;
+	let { data }: PageProps = $props();
+
+	const messageLines = [
+		'Hello!',
+		"You are cordially invited to Alexander's 22nd birthday celebration on Oct 18th, starting at 8PM.",
+		'Drinks, ice cream, and light refreshments will be provided.',
+		"While I'm sure all your gifts would be wonderful, I am unfortunately running out of space. No gifts please unless you really have something in mind.",
+		...(data.signedIn ? [] : ['Please sign in to RSVP and create your doodle.'])
+	];
 
 	const message = $derived.by(() => {
 		const delaySpacing = 10;
 		let delayAggregator = 500;
 
 		return {
-			lines: messageText.split('\n').map((line) => {
+			lines: messageLines.map((line) => {
 				const lineObject = {
 					words: line.split(' ').map((word) => {
 						const wordObject = { word, animationDelay: delayAggregator };
@@ -51,8 +57,12 @@
 				</p>
 			{/each}
 		</div>
-		<div class="button" style:animation-delay="{message.totalDelay + 100}ms">
-			<Button as="a" href={signinHref} text="Sign In" />
+		<div class="content" style:animation-delay="{message.totalDelay + 100}ms">
+			{#if !data.signedIn}
+				<Button as="a" href={signinHref} text="Sign In" />
+			{:else}
+				<RSVP />
+			{/if}
 		</div>
 	</div>
 </div>
@@ -104,8 +114,8 @@
 	p {
 		font-family: 'Archivo Variable', sans-serif;
 		font-weight: 450;
-		font-size: 1.25rem;
-		font-variation-settings: 'wdth' 120;
+		font-size: 1.35rem;
+		font-variation-settings: 'wdth' 110;
 		line-height: 1.4;
 		margin: 16px 0;
 	}
@@ -139,7 +149,7 @@
 		}
 	}
 
-	.button {
+	.content {
 		animation-name: appear;
 		animation-duration: 750ms;
 		animation-fill-mode: both;

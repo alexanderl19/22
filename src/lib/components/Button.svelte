@@ -31,6 +31,7 @@
 
 	.parent:focus-within {
 		outline-width: 2px;
+		outline-style: solid;
 	}
 
 	.button {
