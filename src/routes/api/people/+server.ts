@@ -8,6 +8,7 @@ import { error, json } from '@sveltejs/kit';
 import * as z from 'zod';
 import { sql } from 'drizzle-orm';
 import type { Txid } from '@tanstack/electric-db-collection';
+import DOMPurify from 'isomorphic-dompurify';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const electricUrl = new URL('https://api.electric-sql.cloud/v1/shape');
@@ -73,6 +74,13 @@ export const PUT: RequestHandler = async ({ request }) => {
 	}
 
 	const updates = Updates.parse(await request.json());
+	const doodleClean = updates.doodle
+		? {
+				doodle: DOMPurify.sanitize(updates.doodle.doodle, {
+					USE_PROFILES: { svg: true, svgFilters: true }
+				})
+			}
+		: undefined;
 
 	const txid = await db.transaction(async (tx) => {
 		const txid = await generateTxId(tx);
@@ -80,16 +88,16 @@ export const PUT: RequestHandler = async ({ request }) => {
 			.insert(people)
 			.values({
 				id: sessionData.user.id,
-				name: sessionData.user.firstName + sessionData.user.lastName,
+				name: `${sessionData.user.firstName} ${sessionData.user.lastName}`,
 				rsvp: updates.rsvp,
-				doodle: updates.doodle
+				doodle: doodleClean
 			})
 			.onConflictDoUpdate({
 				target: people.id,
 				set: {
-					name: sessionData.user.firstName + sessionData.user.lastName,
+					name: `${sessionData.user.firstName} ${sessionData.user.lastName}`,
 					rsvp: updates.rsvp,
-					doodle: updates.doodle
+					doodle: doodleClean
 				}
 			});
 

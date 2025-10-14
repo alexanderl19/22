@@ -41,6 +41,7 @@
 		"eslint-config-prettier": "10.1.8",
 		"eslint-plugin-svelte": "3.12.4",
 		"globals": "16.4.0",
+		"isomorphic-dompurify": "2.29.0",
 		"js-draw": "1.31.1",
 		"lucide-svelte": "0.545.0",
 		"postgres": "3.4.7",
