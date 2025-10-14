@@ -73,7 +73,6 @@ export const PUT: RequestHandler = async ({ request }) => {
 	}
 
 	const updates = Updates.parse(await request.json());
-	console.log(updates);
 
 	const txid = await db.transaction(async (tx) => {
 		const txid = await generateTxId(tx);
