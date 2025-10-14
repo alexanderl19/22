@@ -36,7 +36,7 @@
 	});
 
 	const signinHref = new URL(
-		`/signin?redirect_uri=${new URL('auth/ott', PUBLIC_BASE_URL).toString()}`,
+		`/signin?redirect_uri=${new URL('auth/ott', PUBLIC_BASE_URL).toString()}&fd=/invite`,
 		PUBLIC_AUTH_BASE_URL
 	).toString();
 </script>
