@@ -1,6 +1,8 @@
-import { pgTable, serial, integer } from 'drizzle-orm/pg-core';
+import { pgTable, boolean, text, jsonb } from 'drizzle-orm/pg-core';
 
-export const user = pgTable('user', {
-	id: serial('id').primaryKey(),
-	age: integer('age')
+export const people = pgTable('people', {
+	id: text('id').primaryKey(),
+	name: text('name').notNull(),
+	rsvp: boolean('rsvp'),
+	doodle: jsonb('doodle').$type<{ doodle: string }>()
 });

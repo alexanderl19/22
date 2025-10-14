@@ -61,7 +61,7 @@
 			{#if !data.signedIn}
 				<Button as="a" href={signinHref} text="Sign In" />
 			{:else}
-				<RSVP />
+				<RSVP id={data.user.id} name={data.user.name} />
 			{/if}
 		</div>
 	</div>

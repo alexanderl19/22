@@ -1,39 +1,17 @@
 import type { LayoutServerLoad } from './$types';
-import { AUTH_API_BASE_URL } from '$env/static/private';
-
-type SessionData =
-	| { signedIn: false }
-	| {
-			signedIn: true;
-			session: {
-				id: string;
-				userId: string;
-				expiresAt: Date;
-				createdAt: Date;
-				updatedAt: Date;
-				token: string;
-				ipAddress?: string | null | undefined | undefined;
-				userAgent?: string | null | undefined | undefined;
-			};
-			user: {
-				id: string;
-				email: string;
-				emailVerified: boolean;
-				name: string;
-				createdAt: Date;
-				updatedAt: Date;
-				image?: string | null | undefined | undefined;
-			};
-	  };
+import { getSession } from '$lib/server/auth/session';
 
 export const load = (async ({ request }) => {
-	const sessionResponse = await fetch(new URL('/session', AUTH_API_BASE_URL), {
-		headers: request.headers
-	});
-	const sessionData = (await sessionResponse.json()) as SessionData;
+	const sessionData = await getSession(request.headers);
 
-	return {
-		signedIn: sessionData.signedIn,
-		user: sessionData.signedIn ? sessionData.user : undefined
-	};
+	if (sessionData.signedIn) {
+		return {
+			signedIn: sessionData.signedIn,
+			user: sessionData.user
+		};
+	} else {
+		return {
+			signedIn: sessionData.signedIn
+		};
+	}
 }) satisfies LayoutServerLoad;

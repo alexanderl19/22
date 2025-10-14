@@ -1,21 +1,50 @@
 <script lang="ts">
-	let going = $state();
+	import { peopleCollection } from '$lib/collections/people';
+	import { useLiveQuery, eq } from '@tanstack/svelte-db';
+
+	interface Props {
+		id: string;
+		name: string;
+	}
+
+	const { id, name }: Props = $props();
+
+	const peopleQuery = useLiveQuery((q) =>
+		q
+			.from({ people: peopleCollection })
+			.where(({ people }) => eq(people.id, id))
+			.findOne()
+	);
+
+	const upsertRsvp = (rsvp: boolean) => {
+		if (peopleCollection.has(id)) {
+			peopleCollection.update(id, (person) => {
+				person.rsvp = rsvp;
+			});
+		} else {
+			peopleCollection.insert({
+				id,
+				name,
+				rsvp
+			});
+		}
+	};
 </script>
 
 <div class="buttons">
-	<label class="parent left" class:active={going === true}>
+	<label class="parent left" class:active={peopleQuery.data[0]?.rsvp === true}>
 		<button
 			class="button"
 			onclick={() => {
-				going = true;
+				upsertRsvp(true);
 			}}>🪼 Going</button
 		>
 	</label>
-	<label class="parent" class:active={going === false}>
+	<label class="parent" class:active={peopleQuery.data[0]?.rsvp === false}>
 		<button
 			class="button"
 			onclick={() => {
-				going = false;
+				upsertRsvp(false);
 			}}>😴 Can't Go</button
 		>
 	</label>
