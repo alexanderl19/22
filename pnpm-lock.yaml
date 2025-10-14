@@ -27,6 +27,9 @@ importers:
       '@eslint/js':
         specifier: 9.37.0
         version: 9.37.0
+      '@js-draw/math':
+        specifier: 1.31.1
+        version: 1.31.1
       '@sveltejs/adapter-vercel':
         specifier: 5.10.3
         version: 5.10.3(@sveltejs/kit@2.43.8(@sveltejs/vite-plugin-svelte@6.2.1(svelte@5.39.8)(vite@7.1.9(@types/node@22.18.8)(jiti@2.6.1)(sass@1.93.2)))(svelte@5.39.8)(vite@7.1.9(@types/node@22.18.8)(jiti@2.6.1)(sass@1.93.2)))(rollup@4.52.4)
@@ -72,6 +75,9 @@ importers:
       globals:
         specifier: 16.4.0
         version: 16.4.0
+      js-draw:
+        specifier: 1.31.1
+        version: 1.31.1
       postgres:
         specifier: 3.4.7
         version: 3.4.7
@@ -635,10 +641,16 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
+  '@js-draw/math@1.31.1':
+    resolution: {integrity: sha512-ZVWfPY0VDQ+d25mu4PWGK8fVRfYRj0IgUfDhame4Lt2Y1+HbbDmcYoL8nCaD/4q4X3644MHNJW6E7IRfSrdNtg==}
+
   '@mapbox/node-pre-gyp@2.0.0':
     resolution: {integrity: sha512-llMXd39jtP0HpQLVI37Bf1m2ADlEb35GYSh1SDSLsBhR+5iCxiNGlT31yqbNtVHygHAtMy6dWFERpU2JgufhPg==}
     engines: {node: '>=18'}
     hasBin: true
+
+  '@melloware/coloris@0.22.0':
+    resolution: {integrity: sha512-i06nJM0xQrgOkLFUi8d+8mrJjvFgPrU/nTM9vtRGip/T6yHUFIrNV7QgCyps3dBkKVRP/CeJzAeAIvJBSTSbFQ==}
 
   '@microsoft/fetch-event-source@2.0.1':
     resolution: {integrity: sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==}
@@ -1066,6 +1078,9 @@ packages:
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+
+  bezier-js@6.1.3:
+    resolution: {integrity: sha512-VPFvkyO98oCJ1Tsi+bFBrKEWLdefAj4DJVaWp3xTEsdCbunC7Pt/nTeIgu/UdskBNcmHv8TOfsgdMZb1GsICmg==}
 
   bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
@@ -1501,6 +1516,9 @@ packages:
   jiti@2.6.1:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
+
+  js-draw@1.31.1:
+    resolution: {integrity: sha512-1dun70ZfeAGBhu3avN6z6kH+F3DsnVyCi7nykaHedJz3YrOVx8vhrvvNrSHa4s4AmTXS8vUMKfGbPOE//XB1zw==}
 
   js-yaml@4.1.0:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
@@ -2353,6 +2371,10 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
+  '@js-draw/math@1.31.1':
+    dependencies:
+      bezier-js: 6.1.3
+
   '@mapbox/node-pre-gyp@2.0.0':
     dependencies:
       consola: 3.4.2
@@ -2365,6 +2387,8 @@ snapshots:
     transitivePeerDependencies:
       - encoding
       - supports-color
+
+  '@melloware/coloris@0.22.0': {}
 
   '@microsoft/fetch-event-source@2.0.1': {}
 
@@ -2784,6 +2808,8 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
+  bezier-js@6.1.3: {}
+
   bindings@1.5.0:
     dependencies:
       file-uri-to-path: 1.0.0
@@ -3167,6 +3193,11 @@ snapshots:
 
   jiti@2.6.1:
     optional: true
+
+  js-draw@1.31.1:
+    dependencies:
+      '@js-draw/math': 1.31.1
+      '@melloware/coloris': 0.22.0
 
   js-yaml@4.1.0:
     dependencies:

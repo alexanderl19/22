@@ -3,11 +3,12 @@
 	import { PUBLIC_AUTH_BASE_URL, PUBLIC_BASE_URL } from '$env/static/public';
 	import Button from '$lib/components/Button.svelte';
 	import RSVP from './RSVP.svelte';
+	import Doodle from './Doodle.svelte';
 
 	let { data }: PageProps = $props();
 
 	const messageLines = [
-		'Hello!',
+		`Hello${data.signedIn ? ' ' + data.user.name : ''}! `,
 		"You are cordially invited to Alexander's 22nd birthday celebration on Oct 18th, starting at 8PM.",
 		'Drinks, ice cream, and light refreshments will be provided.',
 		"While I'm sure all your gifts would be wonderful, I am unfortunately running out of space. No gifts please unless you really have something in mind.",
@@ -62,6 +63,7 @@
 				<Button as="a" href={signinHref} text="Sign In" />
 			{:else}
 				<RSVP id={data.user.id} name={data.user.name} />
+				<Doodle />
 			{/if}
 		</div>
 	</div>
