@@ -8,10 +8,10 @@
 	let { data }: PageProps = $props();
 
 	const messageLines = [
-		`Hello${data.signedIn ? ' ' + data.user.name : ''}! `,
+		`Hello${data.signedIn ? ' ' + data.user.firstName : ''}! `,
 		"You are cordially invited to Alexander's 22nd birthday celebration on Oct 18th, starting at 8PM.",
 		'Drinks, ice cream, and light refreshments will be provided.',
-		"While I'm sure all your gifts would be wonderful, I am unfortunately running out of space. No gifts please unless you really have something in mind.",
+		"No gifts please. However, if you already have something in mind, please try to keep it small — I'm running out of space!",
 		...(data.signedIn ? [] : ['Please sign in to RSVP and create your doodle.'])
 	];
 
