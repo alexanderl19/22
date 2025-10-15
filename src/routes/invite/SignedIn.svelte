@@ -11,8 +11,11 @@
 
 	const { id, name }: Props = $props();
 
-	const peopleQuery = useLiveQuery((q) =>
+	const peopleRsvpYesQuery = useLiveQuery((q) =>
 		q.from({ people: peopleCollection }).where(({ people }) => eq(people.rsvp, true))
+	);
+	const peopleRsvpNoQuery = useLiveQuery((q) =>
+		q.from({ people: peopleCollection }).where(({ people }) => eq(people.rsvp, false))
 	);
 </script>
 
@@ -20,10 +23,20 @@
 <RSVP {id} {name} />
 <p class="note">Doodle! <span class="gray">Only the inner area is included.</span></p>
 <Doodle {id} {name} />
-<p class="note">Going ({peopleQuery.data.length})</p>
+<p class="note">Going ({peopleRsvpYesQuery.data.length})</p>
 <ul class="people">
-	{#if peopleQuery.isReady}
-		{#each peopleQuery.data as person (person.id)}
+	{#if peopleRsvpYesQuery.isReady}
+		{#each peopleRsvpYesQuery.data as person (person.id)}
+			<li class="person">
+				<div class="doodle">{@html person.doodle?.doodle}</div>
+				{person.name}
+			</li>{/each}
+	{/if}
+</ul>
+<p class="note">Can't Go ({peopleRsvpNoQuery.data.length})</p>
+<ul class="people">
+	{#if peopleRsvpNoQuery.isReady}
+		{#each peopleRsvpNoQuery.data as person (person.id)}
 			<li class="person">
 				<div class="doodle">{@html person.doodle?.doodle}</div>
 				{person.name}
@@ -62,6 +75,9 @@
 	}
 
 	.doodle {
+		height: 64px;
+		width: 64px;
+
 		:global(svg) {
 			height: 64px;
 			width: 64px;
