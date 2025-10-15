@@ -9,7 +9,7 @@
 
 	const messageLines = [
 		`Hello${data.signedIn ? ' ' + data.user.firstName : ''}! `,
-		"You are cordially invited to Alexander's 22nd birthday celebration on Oct 18th, starting at 8PM.",
+		"You are cordially invited to Alexander's 22nd birthday celebration on Oct 18th, from 8PM to late late.",
 		'Drinks, ice cream, and light refreshments will be provided.',
 		"No gifts please. However, if you already have something in mind, please try to keep it small — I'm running out of space!",
 		...(data.signedIn ? [] : ['Please sign in to RSVP and create your doodle.'])
