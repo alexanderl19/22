@@ -3,6 +3,7 @@
 	import { PUBLIC_AUTH_BASE_URL, PUBLIC_BASE_URL } from '$env/static/public';
 	import Button from '$lib/components/Button.svelte';
 	import SignedIn from './SignedIn.svelte';
+	import GuestList from './GuestList.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -63,6 +64,7 @@
 			{:else}
 				<SignedIn id={data.user.id} name={data.user.name} />
 			{/if}
+			<GuestList />
 		</div>
 	</div>
 </div>
