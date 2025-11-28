@@ -6,10 +6,9 @@
 	let { data }: PageProps = $props();
 
 	const messageLines = [
-		`Hello ${data.user.firstName}! `,
-		"You are cordially invited to Alexander's 22nd birthday celebration on Oct 18th, from 8PM to late late.",
-		'Drinks, ice cream, and light refreshments will be provided.',
-		"No gifts please. However, if you already have something in mind, please try to keep it small — I'm running out of space!"
+		`Hello ${data.user.firstName},`,
+		'Thank you for celebrating my 22nd birthday, either in person or in spirit.',
+		'To many more — Alexander.'
 	];
 
 	const message = $derived.by(() => {
