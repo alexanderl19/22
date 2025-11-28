@@ -12,7 +12,7 @@
 		"enabled": true
 	},
 	"vars": {
-		"PUBLIC_AUTH_BASE_URL": "https://auth.alexanderliu.com/",
+		"PUBLIC_AUTH_BASE_URL": "https://account.alexanderliu.com",
 		"PUBLIC_BASE_URL": "http://22.alexanderliu.com"
 	},
 	"services": [
