@@ -1,34 +1,37 @@
 <script lang="ts">
-	import { eq, useLiveQuery } from '@tanstack/svelte-db';
-	import { peopleCollection } from '$lib/collections/people';
+	type Person = {
+		id: string;
+		name: string;
+		doodle: {
+			doodle: string;
+		} | null;
+	};
 
-	const peopleRsvpYesQuery = useLiveQuery((q) =>
-		q.from({ people: peopleCollection }).where(({ people }) => eq(people.rsvp, true))
-	);
-	const peopleRsvpNoQuery = useLiveQuery((q) =>
-		q.from({ people: peopleCollection }).where(({ people }) => eq(people.rsvp, false))
-	);
+	interface Props {
+		peopleRsvpYes: Person[];
+		peopleRsvpNo: Person[];
+	}
+
+	const { peopleRsvpYes, peopleRsvpNo }: Props = $props();
 </script>
 
-<p class="note">Going ({peopleRsvpYesQuery.data.length})</p>
+<p class="note">Going ({peopleRsvpYes.length})</p>
 <ul class="people">
-	{#if peopleRsvpYesQuery.isReady}
-		{#each peopleRsvpYesQuery.data as person (person.id)}
-			<li class="person">
-				<div class="doodle">{@html person.doodle?.doodle}</div>
-				{person.name}
-			</li>{/each}
-	{/if}
+	{#each peopleRsvpYes as person (person.id)}
+		<li class="person">
+			<div class="doodle">{@html person.doodle?.doodle}</div>
+			{person.name}
+		</li>
+	{/each}
 </ul>
-<p class="note">Can't Go ({peopleRsvpNoQuery.data.length})</p>
+<p class="note">Can't Go ({peopleRsvpNo.length})</p>
 <ul class="people">
-	{#if peopleRsvpNoQuery.isReady}
-		{#each peopleRsvpNoQuery.data as person (person.id)}
-			<li class="person">
-				<div class="doodle">{@html person.doodle?.doodle}</div>
-				{person.name}
-			</li>{/each}
-	{/if}
+	{#each peopleRsvpNo as person (person.id)}
+		<li class="person">
+			<div class="doodle">{@html person.doodle?.doodle}</div>
+			{person.name}
+		</li>
+	{/each}
 </ul>
 
 <style lang="scss">

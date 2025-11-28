@@ -1,17 +1,19 @@
+import { db } from '$lib/server/db';
 import type { LayoutServerLoad } from './$types';
-import { getSession } from '$lib/server/auth/session';
 
-export const load = (async ({ request }) => {
-	const sessionData = await getSession(request.headers);
+export const load = (async ({ parent }) => {
+	const people = await db().query.people.findMany();
 
-	if (sessionData.signedIn) {
-		return {
-			signedIn: sessionData.signedIn,
-			user: sessionData.user
-		};
-	} else {
-		return {
-			signedIn: sessionData.signedIn
-		};
-	}
+	const me = people.find(async ({ id }) => id === (await parent()).user.id);
+	const peopleByStatus = Object.groupBy(people, ({ rsvp }) => {
+		if (rsvp === true) {
+			return 'yes';
+		} else if (rsvp === false) {
+			return 'no';
+		}
+
+		return 'none';
+	});
+
+	return { peopleByStatus, me };
 }) satisfies LayoutServerLoad;

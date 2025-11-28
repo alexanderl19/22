@@ -1,0 +1,35 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "22",
+	"main": ".svelte-kit/cloudflare/_worker.js",
+	"compatibility_date": "2025-11-13",
+	"compatibility_flags": ["nodejs_compat"],
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"vars": {
+		"AUTH_API_BASE_URL": "https://auth-api.alexanderliu.com/",
+		"PUBLIC_AUTH_BASE_URL": "https://auth.alexanderliu.com/",
+		"PUBLIC_BASE_URL": "http://22.alexanderliu.com"
+	},
+	"services": [
+		{
+			"binding": "AUTH_API",
+			"service": "auth-api"
+		},
+		{
+			"binding": "AUTH_REDIRECT",
+			"service": "auth-redirect"
+		}
+	],
+	"hyperdrive": [
+		{
+			"binding": "HYPERDRIVE",
+			"id": "e8bc276c879f46efafd6c688aa23424b"
+		}
+	]
+}

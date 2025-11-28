@@ -1,18 +1,15 @@
 <script lang="ts">
 	import type { PageProps } from './$types';
-	import { PUBLIC_AUTH_BASE_URL, PUBLIC_BASE_URL } from '$env/static/public';
-	import Button from '$lib/components/Button.svelte';
-	import SignedIn from './SignedIn.svelte';
 	import GuestList from './GuestList.svelte';
+	import RSVP from './RSVP.svelte';
 
 	let { data }: PageProps = $props();
 
 	const messageLines = [
-		`Hello${data.signedIn ? ' ' + data.user.firstName : ''}! `,
+		`Hello ${data.user.firstName}! `,
 		"You are cordially invited to Alexander's 22nd birthday celebration on Oct 18th, from 8PM to late late.",
 		'Drinks, ice cream, and light refreshments will be provided.',
-		"No gifts please. However, if you already have something in mind, please try to keep it small — I'm running out of space!",
-		...(data.signedIn ? [] : ['Please sign in to RSVP and create your doodle.'])
+		"No gifts please. However, if you already have something in mind, please try to keep it small — I'm running out of space!"
 	];
 
 	const message = $derived.by(() => {
@@ -34,11 +31,6 @@
 			totalDelay: delayAggregator
 		};
 	});
-
-	const signinHref = new URL(
-		`/signin?redirect_uri=${new URL('auth/ott', PUBLIC_BASE_URL).toString()}&fd=/invite`,
-		PUBLIC_AUTH_BASE_URL
-	).toString();
 </script>
 
 <div class="center">
@@ -59,12 +51,16 @@
 			{/each}
 		</div>
 		<div class="content" style:animation-delay="{message.totalDelay + 100}ms">
-			{#if !data.signedIn}
-				<Button as="a" href={signinHref} text="Sign In" />
-			{:else}
-				<SignedIn id={data.user.id} name={data.user.name} />
-			{/if}
-			<GuestList />
+			<p class="note">RSVP</p>
+			<RSVP rsvp={data.me?.rsvp} />
+			<p class="note">Doodle!</p>
+			<div class="canvas-parent">
+				{@html data.me?.doodle?.doodle}
+			</div>
+			<GuestList
+				peopleRsvpYes={data.peopleByStatus.yes || []}
+				peopleRsvpNo={data.peopleByStatus.no || []}
+			/>
 		</div>
 	</div>
 </div>
@@ -156,5 +152,22 @@
 		animation-duration: 750ms;
 		animation-fill-mode: both;
 		animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+	}
+
+	.note {
+		font-family: 'Archivo Variable', sans-serif;
+		font-weight: 400;
+		font-size: 0.85rem;
+		margin: 48px 0 8px 0;
+	}
+
+	.canvas-parent {
+		border: 1px solid var(--sand-7);
+		aspect-ratio: 1;
+	}
+
+	.canvas-parent :global(svg) {
+		width: 100%;
+		height: 100%;
 	}
 </style>

@@ -1,57 +1,18 @@
 <script lang="ts">
-	import { peopleCollection } from '$lib/collections/people';
-	import { useLiveQuery, eq } from '@tanstack/svelte-db';
-
 	interface Props {
-		id: string;
-		name: string;
+		rsvp?: boolean | null;
 	}
 
-	const { id, name }: Props = $props();
-
-	const meQuery = useLiveQuery((q) =>
-		q
-			.from({ people: peopleCollection })
-			.where(({ people }) => eq(people.id, id))
-			.select(({ people }) => ({
-				id: people.id,
-				rsvp: people.rsvp
-			}))
-			.findOne()
-	);
-
-	const upsertRsvp = (rsvp: boolean) => {
-		if (peopleCollection.has(id)) {
-			peopleCollection.update(id, (person) => {
-				person.rsvp = rsvp;
-			});
-		} else {
-			peopleCollection.insert({
-				id,
-				name,
-				rsvp
-			});
-		}
-	};
+	const { rsvp }: Props = $props();
 </script>
 
 <div class="buttons">
-	<label class="parent left" class:active={meQuery.data[0]?.rsvp === true}>
-		<button
-			class="button"
-			onclick={() => {
-				upsertRsvp(true);
-			}}>🪼 Going</button
-		>
-	</label>
-	<label class="parent" class:active={meQuery.data[0]?.rsvp === false}>
-		<button
-			class="button"
-			onclick={() => {
-				upsertRsvp(false);
-			}}>😴 Can't Go</button
-		>
-	</label>
+	<div class="parent left" class:active={rsvp === true}>
+		<div class="button">🪼 Going</div>
+	</div>
+	<div class="parent" class:active={rsvp === false}>
+		<div class="button">😴 Can't Go</div>
+	</div>
 </div>
 
 <style lang="scss">

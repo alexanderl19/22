@@ -1,4 +1,4 @@
-import { AUTH_API_BASE_URL } from '$env/static/private';
+import { PUBLIC_BASE_URL } from '$env/static/public';
 
 type SessionData =
 	| { signedIn: false }
@@ -27,10 +27,15 @@ type SessionData =
 			};
 	  };
 
-export const getSession = async (headers: Headers) => {
-	const sessionResponse = await fetch(new URL('/session', AUTH_API_BASE_URL), {
+export const getSession = async (binding: Fetcher | undefined, headers: Headers) => {
+	if (!binding) {
+		throw Error('Session binding missing.');
+	}
+
+	const sessionResponse = await binding.fetch(new URL('/session', PUBLIC_BASE_URL), {
 		headers
 	});
+
 	const sessionData = (await sessionResponse.json()) as SessionData;
 
 	return sessionData;

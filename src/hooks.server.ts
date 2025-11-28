@@ -1,17 +1,29 @@
-import { dev } from '$app/environment';
-import * as env from '$env/static/private';
+import { setConnectionString } from '$lib/server/db';
 import type { Handle } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
 
-export const handle: Handle = async ({ event, resolve }) => {
-	if (dev && env.DEV_AUTH_REDIRECT_URL && event.url.pathname.startsWith('/auth')) {
-		const originalUrl = new URL(event.request.url);
-		const newUrl = new URL(
-			`${originalUrl.pathname}${originalUrl.search}`,
-			env.DEV_AUTH_REDIRECT_URL
-		);
+const handleDb: Handle = async ({ event, resolve }) => {
+	const dbConnectionString = event.platform?.env.HYPERDRIVE.connectionString;
+	if (!dbConnectionString) {
+		throw Error('Hyperdrive binding missing.');
+	}
 
-		return await fetch(new Request(newUrl, event.request), { redirect: 'manual' });
+	setConnectionString(dbConnectionString);
+
+	return resolve(event);
+};
+
+export const handleAuthRewrite: Handle = async ({ event, resolve }) => {
+	const authRedirectBinding = event.platform?.env.AUTH_REDIRECT;
+	if (!authRedirectBinding) {
+		throw Error('Auth redirect binding missing.');
+	}
+
+	if (event.url.pathname.startsWith('/auth')) {
+		return await authRedirectBinding.fetch(event.request.url, { redirect: 'manual' });
 	}
 
 	return await resolve(event);
 };
+
+export const handle = sequence(handleDb, handleAuthRewrite);
