@@ -12,5 +12,5 @@ export const load = (async ({ locals }) => {
 		return 'none';
 	});
 
-	return { peopleByStatus, me };
+	return { peopleByStatus, me, user: locals.user };
 }) satisfies LayoutServerLoad;
