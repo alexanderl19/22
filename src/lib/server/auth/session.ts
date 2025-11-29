@@ -1,30 +1,34 @@
 import { PUBLIC_BASE_URL } from '$env/static/public';
 
+export type Session = {
+	id: string;
+	userId: string;
+	expiresAt: Date;
+	createdAt: Date;
+	updatedAt: Date;
+	token: string;
+	ipAddress?: string | null | undefined | undefined;
+	userAgent?: string | null | undefined | undefined;
+};
+
+export type User = {
+	id: string;
+	email: string;
+	emailVerified: boolean;
+	name: string;
+	firstName: string;
+	lastName: string;
+	createdAt: Date;
+	updatedAt: Date;
+	image?: string | null | undefined | undefined;
+};
+
 type SessionData =
 	| { signedIn: false }
 	| {
 			signedIn: true;
-			session: {
-				id: string;
-				userId: string;
-				expiresAt: Date;
-				createdAt: Date;
-				updatedAt: Date;
-				token: string;
-				ipAddress?: string | null | undefined | undefined;
-				userAgent?: string | null | undefined | undefined;
-			};
-			user: {
-				id: string;
-				email: string;
-				emailVerified: boolean;
-				name: string;
-				firstName: string;
-				lastName: string;
-				createdAt: Date;
-				updatedAt: Date;
-				image?: string | null | undefined | undefined;
-			};
+			session: Session;
+			user: User;
 	  };
 
 export const getSession = async (binding: Fetcher | undefined, headers: Headers) => {

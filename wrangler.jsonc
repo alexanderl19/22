@@ -8,7 +8,7 @@
 		{
 			"pattern": "22.alexanderliu.com",
 			"custom_domain": true,
-		},
+		}
 	],
 	"assets": {
 		"binding": "ASSETS",
@@ -25,10 +25,6 @@
 		{
 			"binding": "AUTH_API",
 			"service": "auth-api"
-		},
-		{
-			"binding": "AUTH_REDIRECT",
-			"service": "auth-redirect"
 		}
 	],
 	"hyperdrive": [
