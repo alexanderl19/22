@@ -16,20 +16,6 @@ const handleDb: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-const handleAuthRewrite: Handle = async ({ event, resolve }) => {
-	const authRedirectBinding = event.platform?.env.AUTH_API;
-	if (!authRedirectBinding) {
-		throw Error('Auth redirect binding missing.');
-	}
-
-	if (event.url.pathname.startsWith('/auth')) {
-		event.url.pathname = '/rewrite' + event.url.pathname.slice(5);
-		return await authRedirectBinding.fetch(event.request.url, { redirect: 'manual' });
-	}
-
-	return await resolve(event);
-};
-
 const signinHref = new URL(
 	`/signin?redirect_uri=${new URL('auth/ott', PUBLIC_BASE_URL).toString()}&fd=/`,
 	PUBLIC_AUTH_BASE_URL
@@ -54,4 +40,4 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 	return await resolve(event);
 };
 
-export const handle = sequence(handleDb, handleAuthRewrite, handleAuth);
+export const handle = sequence(handleDb, handleAuth);
